@@ -134,5 +134,5 @@ def sample_composed_environment():
     lambda env, config: wrappers.SMMWrapper(env, config['channel_dimensions']),
     single_agent_wrapper,
     lambda env, config: FrameStack(env, config['stacked_frames']),
-    PlayerStackWrapper],
+    PlayerStackWrapper], ###
   )

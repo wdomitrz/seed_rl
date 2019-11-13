@@ -18,7 +18,7 @@ class PlayerStackWrapper(gym.Env):
         obs_shape = np.array(env.observation_space.shape[1:])
         obs_shape[len(obs_shape) - 1] = self.frame_size * 4
 
-        print('!!!PlayerStackWrapper: Squashed observations to!!!', obs_shape)
+        print('!!!PlayerStackWrapper: Squashed observations to!!!', obs_shape, env.action_space)
 
         self.observation_space = gym.spaces.Box(low=0, high=255, shape=obs_shape, dtype=np.uint8)
         self.action_space = env.action_space
@@ -54,6 +54,7 @@ class PlayerStackWrapper(gym.Env):
         return observation, reward, done, info
 
     def reset(self):
+        print('psw reset')
         observation = self.env.reset()
         observation = self._convert_obs(observation)
         return observation
