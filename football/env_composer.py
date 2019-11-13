@@ -72,7 +72,7 @@ DEFAULT_BASIC_CONFIG = {
   'enable_full_episode_videos': False,
   'logdir': '',
   'enable_sides_swap': False,
-  'number_of_left_players_agent_controls': 3,
+  'number_of_left_players_agent_controls': 2,
   'number_of_right_players_agent_controls': 0,
   'extra_players': None,
   'render': False,

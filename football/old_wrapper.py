@@ -1,11 +1,10 @@
 import gym
 import numpy as np
 
+class WrapperEnv(gym.Env):
+    """Supports only extracted observations (stacked)"""
 
-class PlayerStackWrapper(gym.Env):
-    """Supports only extracted observations (stackedx4)"""
-
-    def __init__(self, env, env_config):
+    def __init__(self, env):
         self.env = env
 
         self.metadata = env.metadata
@@ -14,17 +13,18 @@ class PlayerStackWrapper(gym.Env):
 
         # observation shape will be (_, _, 4*frame_size)
         self.players = env.observation_space.shape[0]
-        self.frame_size = 2 + 1 + 1
+        self.frame_size = 2 + (self.players) + 1
         obs_shape = np.array(env.observation_space.shape[1:])
         obs_shape[len(obs_shape) - 1] = self.frame_size * 4
 
-        print('!!!Squashed observations to!!!', obs_shape)
+        print('!!Squashed observations to!!', obs_shape)
 
         self.observation_space = gym.spaces.Box(low=0, high=255, shape=obs_shape, dtype=np.uint8)
         self.action_space = env.action_space
 
     def _convert_obs(self, observation):
         conv_obs = np.zeros(self.observation_space.shape, dtype=np.uint8)
+
         for i in range(conv_obs.shape[2]):
             j = i // self.frame_size
             layer_id = i % self.frame_size
@@ -33,10 +33,9 @@ class PlayerStackWrapper(gym.Env):
                 layer = observation[0, ..., j * 4]
             elif layer_id == 1:
                 layer = observation[0, ..., j * 4 + 1]
-            elif layer_id == 3:
-                layer = observation[0, ..., j * 4 + 3]
-                for player_id in range(self.players):
-                    layer = np.maximum(layer, observation[player_id, ..., j * 4 + 3])
+            elif layer_id >= 2 and layer_id < self.frame_size - 1:
+                player_id = layer_id - 2
+                layer = observation[player_id, ..., j * 4 + 3]
             else:
                 layer = observation[0, ..., j * 4 + 2]
 
@@ -65,4 +64,3 @@ class PlayerStackWrapper(gym.Env):
 
     def seed(self, seed=None):
         return self.env.seed(seed)
-
