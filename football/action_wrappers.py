@@ -18,7 +18,7 @@ class ActionOrder(gym.Wrapper):
     permutation = np.argsort(list(map(self._piority_fn, self._last_observation)))
     permuted_action = np.zeros(action.shape, dtype=action.dtype)
     permuted_action[permutation] = action[...]
-    print('got:', action, permutation, 'returns:', permuted_action)
+    #print('got:', action, permutation, 'returns:', permuted_action)
     return permuted_action
   
   def step(self, action):

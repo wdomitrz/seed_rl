@@ -5,6 +5,7 @@ from gfootball.env import wrappers
 
 from seed_rl.football.action_wrappers import ActionOrder
 from seed_rl.football.player_stack_wrapper import PlayerStackWrapper
+from seed_rl.football.old_wrapper import WrapperEnv
 import collections
 import gym
 import numpy as np

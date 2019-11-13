@@ -4,7 +4,7 @@ import numpy as np
 class WrapperEnv(gym.Env):
     """Supports only extracted observations (stacked)"""
 
-    def __init__(self, env):
+    def __init__(self, env, env_config):
         self.env = env
 
         self.metadata = env.metadata
@@ -40,6 +40,7 @@ class WrapperEnv(gym.Env):
                 layer = observation[0, ..., j * 4 + 2]
 
             conv_obs[..., i] = layer
+            #print(np.where(conv_obs > 0))
 
         return conv_obs
 
