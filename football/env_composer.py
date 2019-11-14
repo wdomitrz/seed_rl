@@ -48,7 +48,7 @@ def checkpoint_wrapper(env, config):
     return wrappers.CheckpointRewardWrapper(env)
   else:
     return env
-    
+
 def single_agent_wrapper(env, config):
   if (config['number_of_left_players_agent_controls'] +
       config['number_of_right_players_agent_controls'] == 1):
@@ -66,9 +66,9 @@ KNOWN_WRAPPERS = {
   'obs_stack': lambda env, config: FrameStack(env, config['stacked_frames']),
   'action_order': ActionOrder
 }
-  
+
 DEFAULT_BASIC_CONFIG = {
-  'env_name': 'academy_3_vs_1_with_keeper',                
+  'env_name': 'academy_3_vs_1_with_keeper',
   'enable_goal_videos': False,
   'enable_full_episode_videos': False,
   'logdir': '',
@@ -90,7 +90,7 @@ DEFAULT_EXTENDED_CONFIG = {
 }
 
 DEFAULT_EXTENDED_CONFIG = {**DEFAULT_BASIC_CONFIG, **DEFAULT_EXTENDED_CONFIG}
-  
+
 def compose_environment(env_config, wrappers):
   def extract_from_dict(dictionary, keys):
     return {new_k: dictionary[k] for (new_k, k) in keys}
@@ -125,7 +125,7 @@ def cmd_compose_environment(flags):
     wrappers.append(KNOWN_WRAPPERS[w])
 
   return compose_environment(config, wrappers)
-  
+
 def sample_composed_environment():
   return compose_environment(DEFAULT_EXTENDED_CONFIG, [
     dump_wrapper,
